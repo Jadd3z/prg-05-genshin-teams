@@ -2,41 +2,18 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Team;
 
-class Team
-{
 
-}
-
-$teams = [
-    [
-        'id' => 1,
-        'reaction' => 'bloom',
-        'elements' => 'Hydro and Dendro'
-    ],
-    [
-        'id' => 2,
-        'reaction' => 'vape',
-        'elements' => 'Hydro and Pyro'
-    ],
-
-    [
-        'id' => 3,
-        'reaction' => 'Freeze',
-        'elements' => 'Hydro and Cryo'
-    ]
-
-];
-
-Route::get('/teams', function () use ($teams) {
+Route::get('/teams', function () {
     return view('teams', [
-        'teams' => $teams
+        'teams' => Team::all()
     ]);
 });
 
-Route::get('/teams/{id}', function ($id) use ($teams) {
+Route::get('/teams/{id}', function ($id) {
 
-    $team = Arr::first($teams, fn($team) => $team['id'] == $id);
+    $team = Team::find($id);
 
 
     return view('team', ['team' => $team]);
