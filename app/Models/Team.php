@@ -3,40 +3,11 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
-class Team
+class Team extends Model
 {
-    public static function all(): array
-    {
-        return [
-            [
-                'id' => 1,
-                'reaction' => 'bloom',
-                'elements' => 'Hydro and Dendro'
-            ],
-            [
-                'id' => 2,
-                'reaction' => 'vape',
-                'elements' => 'Hydro and Pyro'
-            ],
-
-            [
-                'id' => 3,
-                'reaction' => 'Freeze',
-                'elements' => 'Hydro and Cryo'
-            ]
-
-        ];
-    }
-
-
-    public static function find(int $id): array
-    {
-        $team = Arr::first(static::all(), fn($team) => $team['id'] == $id);
-
-        if (!$team) {
-            abort(404);
-        }
-    }
+    protected $table = 'genshin_teams';
+    protected $fillable = ['reaction', 'character', 'element'];
 }

@@ -6,7 +6,8 @@
     <h2 class="font-bold text-3xl">{{$team['reaction']}}</h2>
 
     <p>
-        you need character that are <strong>{{$team['elements']}} </strong> for the reaction.
+        you need character like <strong>{{$team['character']}}</strong> with element of
+        <strong>{{$team['element']}} </strong> for the reaction.
     </p>
 
 

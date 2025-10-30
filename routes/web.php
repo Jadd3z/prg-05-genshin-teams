@@ -1,8 +1,14 @@
 <?php
 
+use illuminate\database\Eloquent\Collection;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Team;
+
+Route::get('/', function () {
+
+    return view('home');
+});
 
 
 Route::get('/teams', function () {
@@ -21,10 +27,6 @@ Route::get('/teams/{id}', function ($id) {
 
 Route::get('/contacts', function () {
     return view('contacts');
-});
-
-Route::get('/', function () {
-    return view('home');
 });
 
 
