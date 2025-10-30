@@ -3,11 +3,11 @@
     <x-slot:heading>
         Team
     </x-slot:heading>
-    <h2 class="font-bold text-3xl">{{$team['reaction']}}</h2>
+    <h2 class="font-bold text-3xl">{{$team['PrimaryReaction']}}</h2>
 
     <p>
-        you need character like <strong>{{$team['character']}}</strong> with element of
-        <strong>{{$team['element']}} </strong> for the reaction.
+        you need character like <strong>{{$character['Name']}}</strong> with element of
+        <strong>{{$Character['element']}} </strong> for the reaction.
     </p>
 
 

@@ -8,7 +8,7 @@
         @foreach($teams as $team)
             <li>
                 <a href="/teams/{{$team['id']}}" class="text-blue-500 hover:underline">
-                    <strong>{{ $team['reaction']}}  </strong>: elements needed {{$team['elements']}}
+                    <strong>{{ $team['TeamName']}}  </strong>: is a {{$team['PrimaryReaction']}} team
                 </a>
             </li>
         @endforeach

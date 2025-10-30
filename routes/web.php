@@ -4,6 +4,7 @@ use illuminate\database\Eloquent\Collection;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Team;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
 
@@ -29,6 +30,11 @@ Route::get('/contacts', function () {
     return view('contacts');
 });
 
+Route::post('/teams/{team}/reviews',
+    [ReviewController::class, 'store'])->name('reviews.store');
+
+// This is the route that defines the name 'teams.show'
+Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
