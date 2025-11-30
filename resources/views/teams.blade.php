@@ -15,5 +15,5 @@
         @endforeach
     </ul>
 
-    <a href="/{{ route('create') }}"> create team</a>
+    <a href="/{{ ('create') }}"> create team</a>
 </x-layout>
