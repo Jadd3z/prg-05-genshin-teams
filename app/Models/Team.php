@@ -10,10 +10,17 @@ use Illuminate\Support\Arr;
 class Team extends Model
 {
 
-    protected $fillable = ['reaction', 'character', 'element'];
+    protected $fillable = ['TeamName',
+        'PrimaryReaction',
+        'MainCharacterID',
+        'SupportCharacter1ID',
+        'SupportCharacter2ID',
+        'SupportCharacter3ID',];
+    protected $primaryKey = 'TeamID';
 
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+
     }
 }

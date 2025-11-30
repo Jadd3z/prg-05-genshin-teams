@@ -18,8 +18,12 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+
         ]);
+
+        // Call the new seeder to populate the characters table
+        $this->call(CharactersSeeder::class);
+
+
     }
 }

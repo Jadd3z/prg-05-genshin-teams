@@ -1,10 +1,11 @@
 <?php
 
-use illuminate\database\Eloquent\Collection;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Models\Team;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TeamController;
+use App\Models\Team;
+use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
 
@@ -18,13 +19,6 @@ Route::get('/teams', function () {
     ]);
 });
 
-Route::get('/teams/{id}', function ($id) {
-
-    $team = Team::find($id);
-
-
-    return view('team', ['team' => $team]);
-});
 
 Route::get('/contacts', function () {
     return view('contacts');
@@ -36,9 +30,18 @@ Route::post('/teams/{team}/reviews',
 // This is the route that defines the name 'teams.show'
 Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
 
+//////////////////////////////////////////////
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// create routes
+
+Route::get('/create', [TeamController::class, 'create'])->name('create');
+// 2. Route to handle the form submission and create a new team
+Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
