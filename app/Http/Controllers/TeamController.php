@@ -14,6 +14,18 @@ class TeamController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        // 1. Eager load the character relationships for performance
+        $teams = Team::with(['mainCharacter', 'supportCharacter1', 'supportCharacter2', 'supportCharacter3'])
+            ->get();
+
+        // 2. Return the view that lists all teams (your teams.blade.php)
+        // NOTE: If your view is named 'teams.blade.php', the view call should be 'teams'
+        return view('teams', [
+            'teams' => $teams
+        ]);
+    }
 
     public function create()
     {
@@ -52,5 +64,47 @@ class TeamController extends Controller
         // Redirect the user to the newly created team's view page
         return redirect()->route('teams.show', $team->TeamID)
             ->with('success', 'Team "' . $team->TeamName . '" created successfully!');
+    }
+
+    public function edit(Team $team)
+    {
+        // 1. Fetch all characters to populate the dropdowns
+        $characters = Character::orderBy('Name')->get();
+
+        // 2. Pass the specific team and the list of characters to the view
+        return view('teams.edit', [
+            'team' => $team,
+            'characters' => $characters,
+        ]);
+    }
+
+    public function update(Request $request, Team $team)
+    {
+        // 1. Data Validation (Uses the same rules as 'store' but with different actions)
+        $validated = $request->validate([
+            'TeamName' => 'required|string|max:255',
+            'PrimaryReaction' => 'nullable|string|max:255',
+            'MainCharacterID' => 'required|exists:characters,CharacterID',
+            'SupportCharacter1ID' => 'nullable|exists:characters,CharacterID',
+            'SupportCharacter2ID' => 'nullable|exists:characters,CharacterID',
+            'SupportCharacter3ID' => 'nullable|exists:characters,CharacterID',
+        ]);
+
+        // 2. Update the team record using the validated data
+        $team->update($validated);
+
+        // 3. Redirection
+        // Redirect the user back to the team's detail page
+        return redirect()->route('teams.show', $team)->with('success', 'Team updated successfully!');
+    }
+
+    public function destroy(Team $team)
+    {
+        // 1. Delete the team record
+        $team->delete();
+
+        // 2. Redirect back to the teams list page (index)
+        return redirect()->route('teams.index')
+            ->with('success', 'Team "' . $team->TeamName . '" deleted successfully!');
     }
 }

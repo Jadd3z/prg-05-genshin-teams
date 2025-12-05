@@ -23,4 +23,26 @@ class Team extends Model
         return $this->hasMany(Review::class);
 
     }
+
+    public function mainCharacter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Character::class, 'MainCharacterID');
+    }
+
+    public function supportCharacter1(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Character::class, 'SupportCharacter1ID');
+    }
+
+    public function supportCharacter2(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Character::class, 'SupportCharacter2ID');
+    }
+
+    public function supportCharacter3(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Character::class, 'SupportCharacter3ID');
+    }
+
+
 }

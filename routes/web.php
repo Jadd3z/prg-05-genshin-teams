@@ -49,4 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/////////////////////////////////////////////////////
+Route::get('/teams/{team}/edit', [TeamController::class, 'edit'])->name('teams.edit');
+Route::resource('teams', TeamController::class);
 require __DIR__ . '/auth.php';
