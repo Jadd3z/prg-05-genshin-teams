@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Character;
 use App\Models\Team;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class TeamController extends Controller
@@ -11,20 +13,48 @@ class TeamController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return Factory|View|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        // 1. Eager load the character relationships for performance
-        $teams = Team::with(['mainCharacter', 'supportCharacter1', 'supportCharacter2', 'supportCharacter3'])
-            ->get();
 
-        // 2. Return the view that lists all teams (your teams.blade.php)
-        // NOTE: If your view is named 'teams.blade.php', the view call should be 'teams'
+        // Start building the query
+        $query = Team::with(['mainCharacter', 'supportCharacter1', 'supportCharacter2', 'supportCharacter3']);
+
+        // 1. Search by Team Name OR Primary Reaction
+        $query->when($request->filled('search'), function ($q) use ($request) {
+            $q->where(function ($subQuery) use ($request) {
+                $subQuery->where('TeamName', 'like', '%' . $request->search . '%')
+                    ->orWhere('PrimaryReaction', 'like', '%' . $request->search . '%');
+            });
+        });
+
+        // 2. Filter by Reaction (Category)
+        $query->when($request->filled('reaction'), function ($q) use ($request) {
+            $q->where('PrimaryReaction', $request->reaction);
+        });
+
+        // 3. Filter by Main Character Element (Advanced Relationship Filter)
+        // "Show me teams where the Main Character is Pyro"
+        $query->when($request->filled('element'), function ($q) use ($request) {
+            $q->whereHas('mainCharacter', function ($subQuery) use ($request) {
+                $subQuery->where('Element', $request->element);
+            });
+        });
+
+        // Execute the query
+        $teams = $query->get();
+
+        // Get all unique reactions/elements for the filter dropdowns to avoid hardcoding
+        $reactions = Team::select('PrimaryReaction')->distinct()->pluck('PrimaryReaction');
+        $elements = Character::select('Element')->distinct()->pluck('Element');
+
         return view('teams', [
-            'teams' => $teams
+            'teams' => $teams,
+            'reactions' => $reactions,
+            'elements' => $elements
         ]);
+
     }
 
     public function create()
@@ -107,4 +137,14 @@ class TeamController extends Controller
         return redirect()->route('teams.index')
             ->with('success', 'Team "' . $team->TeamName . '" deleted successfully!');
     }
+
+    public function toggleStatus(Team $team)
+    {
+        // Toggle the boolean value
+        $team->update(['is_active' => !$team->is_active]);
+
+        // Redirect back to the list
+        return back()->with('success', 'Status updated');
+    }
+
 }

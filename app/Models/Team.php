@@ -15,7 +15,9 @@ class Team extends Model
         'MainCharacterID',
         'SupportCharacter1ID',
         'SupportCharacter2ID',
-        'SupportCharacter3ID',];
+        'SupportCharacter3ID',
+        'is_active',
+    ];
     protected $primaryKey = 'TeamID';
 
     public function reviews(): HasMany

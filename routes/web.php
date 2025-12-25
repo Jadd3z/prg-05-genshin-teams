@@ -3,45 +3,19 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TeamController;
-use App\Models\Team;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', function () {
-
     return view('home');
 });
-
-
-Route::get('/teams', function () {
-    return view('teams', [
-        'teams' => Team::all()
-    ]);
-});
-
 
 Route::get('/contacts', function () {
     return view('contacts');
 });
 
-Route::post('/teams/{team}/reviews',
-    [ReviewController::class, 'store'])->name('reviews.store');
-
-// This is the route that defines the name 'teams.show'
-Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
-
-//////////////////////////////////////////////
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-// create routes
-
-Route::get('/create', [TeamController::class, 'create'])->name('create');
-// 2. Route to handle the form submission and create a new team
-Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -49,7 +23,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/////////////////////////////////////////////////////
-Route::get('/teams/{team}/edit', [TeamController::class, 'edit'])->name('teams.edit');
+// --- TEAM ROUTES ---
+
+Route::post('/teams/{team}/toggle', [TeamController::class, 'toggleStatus'])->name('teams.toggle');
+
+// 1. Reviews (Custom route not covered by resource)
+Route::post('/teams/{team}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
+// 2. The Resource Route
+// This single line creates ALL the standard routes for you:
+// GET /teams          -> TeamController@index  (Your Search Engine is here!)
+// GET /teams/create   -> TeamController@create
+// POST /teams         -> TeamController@store
+// GET /teams/{team}   -> TeamController@show
+// GET /teams/{team}/edit -> TeamController@edit
+// PUT /teams/{team}   -> TeamController@update
+// DELETE /teams/{team}-> TeamController@destroy
 Route::resource('teams', TeamController::class);
+
 require __DIR__ . '/auth.php';
