@@ -86,7 +86,9 @@ class TeamController extends Controller
             'SupportCharacter3ID' => 'nullable|exists:characters,CharacterID',
         ]);
 
-        // 2. Data Persistence (Saving to the database)
+        $validatedData['user_id'] = auth()->id();
+
+
         // Create a new Team model instance and fill it with the validated data
         $team = Team::create($validatedData);
 
@@ -98,6 +100,11 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
+
+        if ($team->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+
         // 1. Fetch all characters to populate the dropdowns
         $characters = Character::orderBy('Name')->get();
 
@@ -110,6 +117,9 @@ class TeamController extends Controller
 
     public function update(Request $request, Team $team)
     {
+        if ($team->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
         // 1. Data Validation (Uses the same rules as 'store' but with different actions)
         $validated = $request->validate([
             'TeamName' => 'required|string|max:255',
@@ -130,6 +140,11 @@ class TeamController extends Controller
 
     public function destroy(Team $team)
     {
+
+        if ($team->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+
         // 1. Delete the team record
         $team->delete();
 
@@ -140,6 +155,11 @@ class TeamController extends Controller
 
     public function toggleStatus(Team $team)
     {
+
+        if ($team->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+
         // Toggle the boolean value
         $team->update(['is_active' => !$team->is_active]);
 

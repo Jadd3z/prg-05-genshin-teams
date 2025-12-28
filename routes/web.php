@@ -41,4 +41,11 @@ Route::post('/teams/{team}/reviews', [ReviewController::class, 'store'])->name('
 // DELETE /teams/{team}-> TeamController@destroy
 Route::resource('teams', TeamController::class);
 
+/// admin section
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard'); // Create this view later
+    })->name('admin.dashboard');
+});
+
 require __DIR__ . '/auth.php';
