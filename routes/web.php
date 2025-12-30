@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('home');
@@ -47,5 +49,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return view('admin.dashboard'); // Create this view later
     })->name('admin.dashboard');
 });
+
+Route::get('/profile', function () {
+    return view('profile', [
+        'user' => User::first()
+    ]);
+});
+Route::middleware('auth')->group(function () {
+    // Show the profile page
+    Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
+
+    // Process the update
+    Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
+});
+
 
 require __DIR__ . '/auth.php';
