@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -15,10 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
         User::factory()->create([
-
+            'name' => 'Admin John',
+            'email' => 'johndoe@hr.nl',
+            'password' => bcrypt('Rootrootroot'),
+            'is_admin' => true, // This overrides the default(false) from your migration
         ]);
 
         // Call the new seeder to populate the characters table

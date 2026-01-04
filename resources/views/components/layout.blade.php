@@ -3,143 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLOPTOPICA - Official Site 🥵</title>
+    <title>Genshin team builder</title>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Comic+Neue:wght@700&display=swap"
           rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
 </head>
-<body>
+<body class="bg-gray-100">
 
 <div class="min-h-full">
-    <nav class="bg-gray-800/50">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
+
+    <nav class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
                 <div class="flex items-center">
-                    <div class="shrink-0">
-                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                             alt="Your Company" class="size-8"/>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-                            <a href="/" aria-current="page"
-                               class="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Home</a>
-                            <a href="/teams"
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">teams</a>
-                            <a href="/contacts"
-                               class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">contacts</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <button type="button"
-                                class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                                 data-slot="icon" aria-hidden="true" class="size-6">
-                                <path
-                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                                    stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
+                    <a href="/" class="flex-shrink-0 flex items-center text-decoration-none">
+                        <span class="text-xl font-bold text-gray-900 tracking-tight">
+                            BrandLogo
+                        </span>
+                    </a>
 
-                        <!-- Profile dropdown -->
-                        <el-dropdown class="relative ml-3">
-                            <button
-                                class="relative flex max-w-xs items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                                <span class="absolute -inset-1.5"></span>
-                                <span class="sr-only">Open user menu</span>
-                                <img
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt="" class="size-8 rounded-full outline -outline-offset-1 outline-white/10"/>
-                            </button>
+                    <div class="hidden md:flex ml-10 space-x-8">
 
+                        <a href="/teams"
+                           class="text-gray-500 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Teams
+                        </a>
+                        <a href="/about"
+                           class="text-gray-500 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            about
+                        </a>
 
-                        </el-dropdown>
                     </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
-                    <!-- Mobile menu button -->
-                    <button type="button" command="--toggle" commandfor="mobile-menu"
-                            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
-                        <span class="absolute -inset-0.5"></span>
-                        <span class="sr-only">Open main menu</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
-                             aria-hidden="true" class="size-6 in-aria-expanded:hidden">
-                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
-                             aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
-                            <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
+
+                <div class="flex items-center space-x-4">
+
+                    {{-- Check if user is logged in --}}
+                    @auth
+                        {{--
+                           ADMIN LOGIC:
+                           Change 'is_admin' to whatever column name you use in your database (e.g., role === 'admin')
+                        --}}
+                        @if(Auth::user()->is_admin)
+                            <a href="/dashboard"
+                               class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Dashboard
+                            </a>
+                        @endif
+
+                        <a href="/profile" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                            <div
+                                class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600 border border-gray-300">
+                                {{ substr(Auth::user()->name, 0, 2) }}
+                            </div>
+                            <span class="hidden md:block text-sm font-medium">Profile</span>
+                        </a>
+                    @else
+                        {{-- Show Login if not logged in --}}
+                        <a href="/login" class="text-sm font-medium text-gray-500 hover:text-gray-900">Log in</a>
+                        <a href="/register"
+                           class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-900">Register</a>
+                    @endauth
+
                 </div>
             </div>
         </div>
-
-        <el-disclosure id="mobile-menu" hidden class="block md:hidden">
-            <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-                <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-                <a href="/" aria-current="page"
-                   class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Home </a>
-                <a href="/about"
-                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">About</a>
-                <a href="/diner"
-                   class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Diner</a>
-
-            </div>
-            <div class="border-t border-white/10 pt-4 pb-3">
-                <div class="flex items-center px-5">
-                    <div class="shrink-0">
-                        <img
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt="" class="size-10 rounded-full outline -outline-offset-1 outline-white/10"/>
-                    </div>
-                    <div class="ml-3">
-                        <div class="text-base/5 font-medium text-white">Tom Cook</div>
-                        <div class="text-sm font-medium text-gray-400">tom@example.com</div>
-                    </div>
-                    <button type="button"
-                            class="relative ml-auto shrink-0 rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
-                             aria-hidden="true" class="size-6">
-                            <path
-                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                                stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </el-disclosure>
     </nav>
-
-    <header
-        class="relative bg-gray-800 after:pointer-events-none after:absolute after:inset-x-0 after:inset-y-0 after:border-y after:border-white/10">
+    <header class="relative bg-gray-800 shadow">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-white">{{$heading}}</h1>
+            <h1 class="text-3xl font-bold tracking-tight text-white">
+                {{ $heading ?? 'Welcome' }}
+            </h1>
         </div>
     </header>
+
     <main>
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            {{$slot}}
+            {{ $slot }}
         </div>
     </main>
 </div>
 
 
-<main>
-
-</main>
-
-<footer class="chaos-border">
-
-</footer>
-
 </body>
+
 </html>

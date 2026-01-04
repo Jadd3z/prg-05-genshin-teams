@@ -12,14 +12,15 @@ return new class extends Migration {
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->text('body'); // The review content
-            $table->unsignedTinyInteger('rating')->default(5); // Rating out of 5, for example
 
-            // Foreign Key to link to the 'products' table
-            $table->foreignId('TeamID')
-                ->constrained() // Infers 'products' table and 'id' column
-                ->onDelete('cascade'); // Required for the final deletion assignment
+          
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
+
+            $table->foreignId('team_id')->constrained('teams', 'TeamID')->cascadeOnDelete();
+
+            $table->text('body');
+            $table->integer('rating')->default(5); // Optional: 1-5 stars
             $table->timestamps();
         });
     }

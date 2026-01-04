@@ -10,20 +10,29 @@ use Illuminate\Support\Arr;
 class Team extends Model
 {
 
-    protected $fillable = ['TeamName',
+    protected $fillable = [
+        'TeamName',
+        'image_url',
         'PrimaryReaction',
         'MainCharacterID',
         'SupportCharacter1ID',
         'SupportCharacter2ID',
         'SupportCharacter3ID',
         'is_active',
+        'user_id',
     ];
     protected $primaryKey = 'TeamID';
 
     public function reviews(): HasMany
     {
-        return $this->hasMany(Review::class);
 
+        return $this->hasMany(Review::class, 'team_id', 'TeamID');
+    }
+
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function mainCharacter(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -19,7 +19,7 @@ class TeamController extends Controller
     {
 
         // Start building the query
-        $query = Team::with(['mainCharacter', 'supportCharacter1', 'supportCharacter2', 'supportCharacter3']);
+        $query = Team::query();
 
         // 1. Search by Team Name OR Primary Reaction
         $query->when($request->filled('search'), function ($q) use ($request) {
@@ -43,7 +43,9 @@ class TeamController extends Controller
         });
 
         // Execute the query
-        $teams = $query->get();
+        $teams = Team::where('is_active', true)
+            ->orWhere('user_id', auth()->id())
+            ->get();
 
         // Get all unique reactions/elements for the filter dropdowns to avoid hardcoding
         $reactions = Team::select('PrimaryReaction')->distinct()->pluck('PrimaryReaction');
@@ -61,7 +63,7 @@ class TeamController extends Controller
     {
         $characters = Character::all();
 
-        return view('create', [
+        return view('teams.create', [
             'characters' => $characters
         ]);
     }
@@ -79,6 +81,7 @@ class TeamController extends Controller
 // 1. Data Validation (Crucial for security and correctness)
         $validatedData = $request->validate([
             'TeamName' => 'required|string|max:255',
+            'image_url' => 'nullable|url|max:2048',
             'PrimaryReaction' => 'nullable|string|max:255',
             'MainCharacterID' => 'required|exists:characters,CharacterID', // Must exist in the characters table
             'SupportCharacter1ID' => 'nullable|exists:characters,CharacterID',
@@ -123,6 +126,7 @@ class TeamController extends Controller
         // 1. Data Validation (Uses the same rules as 'store' but with different actions)
         $validated = $request->validate([
             'TeamName' => 'required|string|max:255',
+            'image_url' => 'nullable|url|max:2048',
             'PrimaryReaction' => 'nullable|string|max:255',
             'MainCharacterID' => 'required|exists:characters,CharacterID',
             'SupportCharacter1ID' => 'nullable|exists:characters,CharacterID',

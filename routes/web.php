@@ -3,21 +3,20 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\UserController;
+use App\Models\Team;
 
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/contacts', function () {
-    return view('contacts');
+Route::get('/about', function () {
+    return view('about');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,9 +44,7 @@ Route::resource('teams', TeamController::class);
 
 /// admin section
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard'); // Create this view later
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
 Route::get('/profile', function () {
@@ -62,6 +59,9 @@ Route::middleware('auth')->group(function () {
     // Process the update
     Route::put('/profile', [UserController::class, 'update'])->name('profile.update');
 });
+
+Route::post('/admin/characters', [App\Http\Controllers\CharacterController::class, 'store'])
+    ->name('admin.characters.store');
 
 
 require __DIR__ . '/auth.php';

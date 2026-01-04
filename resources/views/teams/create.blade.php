@@ -34,6 +34,19 @@
                         >
                     </div>
 
+                    {{-- NEW: Image URL Input --}}
+                    <div>
+                        <label for="image_url" class="block text-sm font-medium text-gray-700 mb-1">Team Image URL
+                            (Optional):</label>
+                        <input
+                            type="url"
+                            name="image_url"
+                            id="image_url"
+                            placeholder="https://example.com/my-team-showcase.jpg"
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition"
+                        >
+                    </div>
+
                     {{-- Primary Reaction Input --}}
                     <div>
                         <label for="PrimaryReaction" class="block text-sm font-medium text-gray-700 mb-1">Primary
